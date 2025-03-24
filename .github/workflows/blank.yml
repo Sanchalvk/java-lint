@@ -19,7 +19,7 @@ jobs:
         uses: actions/setup-java@v2
         with:
           java-version: '11'
-          distribution: temurin  # Corrected to use temurin instead of adoptopenjdk
+          distribution: temurin
           architecture: x64
 
       - name: Download Checkstyle
@@ -28,4 +28,7 @@ jobs:
 
       - name: Run Checkstyle
         run: |
-          java -jar checkstyle.jar -c /google_checks.xml src/**/*.java
+          java -jar checkstyle.jar -c .github/checkstyle/google_checks.xml src/main/java/**/*.java  # Update the path 
+      - name: List Java files for debugging
+        run: find src/**/*.java
+    
