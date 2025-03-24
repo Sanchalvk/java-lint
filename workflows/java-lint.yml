@@ -1,4 +1,4 @@
-name: Java Lint Check
+name: Java Lint Check 
 
 on:
   push:
