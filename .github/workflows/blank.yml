@@ -19,4 +19,4 @@ jobs:
       - name: Run actionlint
         uses: rhysd/actionlint@v2
         with:
-          github_token: ${{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}}  # Use the automatically provided GITHUB_TOKEN
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # Use the automatically provided GITHUB_TOKEN
