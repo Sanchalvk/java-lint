@@ -1,0 +1,51 @@
+name: Java Lint Check
+
+on:
+  push:
+    branches:
+      - main  # Trigger on push to 'main' branch
+  pull_request:
+    branches:
+      - main  # Trigger on pull request to 'main' branch
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the code from the repository
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      # Step 2: Set up Java Development Kit (JDK)
+      - name: Set up JDK 11
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # Step 3: Set up Maven (for managing dependencies and building project)
+      - name: Set up Maven
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # Step 4: Install dependencies (skip tests for faster linting)
+      - name: Build with Maven
+        run: mvn install -DskipTests
+
+      # Step 5: Run Checkstyle (linting) and log errors without failing the build
+      - name: Run Checkstyle and log errors
+        run: mvn checkstyle:checkstyle || true
+
+      # Step 6: Capture Checkstyle report if errors are found
+      - name: Capture Checkstyle report
+        run: |
+          if [ -f target/checkstyle-result.xml ]; then
+            echo "Checkstyle found errors, here are the details:"
+            cat target/checkstyle-result.xml
+          else
+            echo "No Checkstyle errors found."
+          fi
+
